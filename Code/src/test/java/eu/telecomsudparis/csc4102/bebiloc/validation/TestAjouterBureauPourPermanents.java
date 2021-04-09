@@ -1,3 +1,4 @@
+// CHECKSTYLE:OFF
 package eu.telecomsudparis.csc4102.bebiloc.validation;
 
 import org.junit.After;
@@ -6,10 +7,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import eu.telecomsudparis.csc4102.bebiloc.BeBiloc;
-import eu.telecomsudparis.csc4102.bebiloc.Localisation;
 import eu.telecomsudparis.csc4102.bebiloc.exception.BureauDejaExistant;
 import eu.telecomsudparis.csc4102.bebiloc.exception.CapaciteBureauErronee;
-import eu.telecomsudparis.csc4102.bebiloc.exception.LocalisationNull;
+import eu.telecomsudparis.csc4102.bebiloc.exception.LocalisationNullOuVide;
 import eu.telecomsudparis.csc4102.exception.ChaineDeCaracteresNullOuVide;
 
 public class TestAjouterBureauPourPermanents {
@@ -27,68 +27,64 @@ public class TestAjouterBureauPourPermanents {
 
 	@Test(expected = ChaineDeCaracteresNullOuVide.class)
 	public void ajouterBureauPermanentTest1Jeu1() throws Exception {
-		systeme.ajouterBureauPermanent(null, Localisation.EVRY, 1, 0);
+		systeme.ajouterBureauPermanent(null, "EVRY", 1, 0);
 	}
 
 	@Test(expected = ChaineDeCaracteresNullOuVide.class)
 	public void ajouterBureauPermanentTest1Jeu2() throws Exception {
-		systeme.ajouterBureauPermanent("", Localisation.EVRY, 1, 0);
+		systeme.ajouterBureauPermanent("", "EVRY", 1, 0);
 	}
 
-	@Test(expected = LocalisationNull.class)
-	public void constructeurNonPermanentTest2Jeu1() throws Exception {
+	@Test(expected = LocalisationNullOuVide.class)
+	public void constructeurPermanentTest2Jeu1() throws Exception {
 		systeme.ajouterBureauPermanent("id1", null, 1, 0);
 	}
-
-	@Test(expected = CapaciteBureauErronee.class)
-	public void constructeurNonPermanentTest4Jeu1() throws Exception {
-		systeme.ajouterBureauPermanent("id1", Localisation.PALAISEAU, 2, 0);
+	
+	@Test(expected = LocalisationNullOuVide.class)
+	public void constructeurPermanentTest2Jeu2() throws Exception {
+		systeme.ajouterBureauPermanent("id1", "", 1, 0);
 	}
 
 	@Test(expected = CapaciteBureauErronee.class)
-	public void constructeurNonPermanentTest4Jeu2() throws Exception {
-		systeme.ajouterBureauPermanent("id1", Localisation.PALAISEAU, 1, 2);
+	public void constructeurPermanentTest4Jeu1() throws Exception {
+		systeme.ajouterBureauPermanent("id1", "PALAISEAU", 2, 0);
+	}
+
+	@Test(expected = CapaciteBureauErronee.class)
+	public void constructeurPermanentTest4Jeu2() throws Exception {
+		systeme.ajouterBureauPermanent("id1", "PALAISEAU", 1, 2);
 	}
 	
 	@Test(expected = CapaciteBureauErronee.class)
-	public void constructeurNonPermanentTest4Jeu3() throws Exception {
-		systeme.ajouterBureauPermanent("id1", Localisation.PALAISEAU, 0, 2);
+	public void constructeurPermanentTest4Jeu3() throws Exception {
+		systeme.ajouterBureauPermanent("id1", "PALAISEAU", 0, 2);
 	}
 
 	@Test(expected = CapaciteBureauErronee.class)
-	public void constructeurNonPermanentTest4Jeu4() throws Exception {
-		systeme.ajouterBureauPermanent("id1", Localisation.PALAISEAU, 0, -1);
+	public void constructeurPermanentTest4Jeu4() throws Exception {
+		systeme.ajouterBureauPermanent("id1", "PALAISEAU", 0, -1);
 	}
 
 	@Test(expected = CapaciteBureauErronee.class)
-	public void constructeurNonPermanentTest4Jeu5() throws Exception {
-		systeme.ajouterBureauPermanent("id1", Localisation.PALAISEAU, -1, 1);
+	public void constructeurPermanentTest4Jeu5() throws Exception {
+		systeme.ajouterBureauPermanent("id1", "PALAISEAU", -1, 2);
 	}
-
 
 	@Test(expected = BureauDejaExistant.class)
 	public void ajouterBureauPermanentTest5() throws Exception {
 		try {
-			systeme.ajouterBureauPermanent("id1", Localisation.PALAISEAU, 1, 1);
+			systeme.ajouterBureauPermanent("id1", "EVRY", 1, 1);
 		} catch (BureauDejaExistant e) {
 			Assert.fail();
 		}
-		Assert.assertEquals(1, systeme.getNbFixe("id1")); 
-		Assert.assertEquals(1, systeme.getNbPassage("id1"));						
-		systeme.ajouterBureauPermanent("id1", Localisation.PALAISEAU, 1, 1);
+		systeme.ajouterBureauPermanent("id1", "EVRY", 1, 1);
 	}
 
 	@Test
-	public void ajouterBureauPermanentTest6Jeu1() throws Exception {
-		systeme.ajouterBureauPermanent("id1", Localisation.PALAISEAU, 1, 0);
-		Assert.assertEquals(1, systeme.getNbFixe("id1"));
-		Assert.assertEquals(0, systeme.getNbPassage("id1"));
-	}
-
-	@Test
-	public void ajouterBureauPermanentTest6Jeu2() throws Exception {
-		systeme.ajouterBureauPermanent("id1", Localisation.PALAISEAU, 1, 1);
-		Assert.assertEquals(1, systeme.getNbFixe("id1"));
-		Assert.assertEquals(1, systeme.getNbPassage("id1"));
+	public void ajouterBureauPermanentTest6() throws Exception {
+		systeme.ajouterBureauPermanent("id1", "EVRY", 1, 1);
+		Assert.assertEquals(true, systeme.getListeBureaux().containsKey("id1"));
+		Assert.assertEquals(1, systeme.getListeBureaux().get("id1").getNbFixe());
+		Assert.assertEquals(1, systeme.getListeBureaux().get("id1").getNbPassage());
 	}
 }

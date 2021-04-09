@@ -6,11 +6,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import eu.telecomsudparis.csc4102.bebiloc.BeBiloc;
-import eu.telecomsudparis.csc4102.bebiloc.Localisation;
 import eu.telecomsudparis.csc4102.bebiloc.TypeFonction;
 import eu.telecomsudparis.csc4102.bebiloc.exception.BureauDejaExistant;
 import eu.telecomsudparis.csc4102.bebiloc.exception.CapaciteBureauErronee;
-import eu.telecomsudparis.csc4102.bebiloc.exception.LocalisationNull;
+import eu.telecomsudparis.csc4102.bebiloc.exception.LocalisationNullOuVide;
 import eu.telecomsudparis.csc4102.exception.ChaineDeCaracteresNullOuVide;
 
 public class TestAjouterBureauPourNonPermanents {
@@ -29,67 +28,64 @@ public class TestAjouterBureauPourNonPermanents {
 
 	@Test(expected = ChaineDeCaracteresNullOuVide.class)
 	public void ajouterBureauNonPermanentTest1Jeu1() throws Exception {
-		systeme.ajouterBureauNonPermanent(null, Localisation.EVRY, TypeFonction.NON_PERMANENT, 1, 1);
+		systeme.ajouterBureauNonPermanent(null, "EVRY", TypeFonction.NON_PERMANENT, 1, 1);
 	}
 
 	@Test(expected = ChaineDeCaracteresNullOuVide.class)
 	public void ajouterBureauNonPermanentTest1Jeu2() throws Exception {
-		systeme.ajouterBureauNonPermanent("", Localisation.EVRY, TypeFonction.NON_PERMANENT, 1, 1);
+		systeme.ajouterBureauNonPermanent("", "EVRY", TypeFonction.NON_PERMANENT, 1, 1);
 	}
 
-	@Test(expected = LocalisationNull.class)
+	@Test(expected = LocalisationNullOuVide.class)
 	public void ajouterBureauNonPermanentTest2Jeu1() throws Exception {
 		systeme.ajouterBureauNonPermanent("id1", null, TypeFonction.NON_PERMANENT, 1, 1);
+	}
+	
+	@Test(expected = LocalisationNullOuVide.class)
+	public void ajouterBureauNonPermanentTest2Jeu2() throws Exception {
+		systeme.ajouterBureauNonPermanent("id1", "", TypeFonction.NON_PERMANENT, 1, 1);
 	}
 
 	@Test(expected = CapaciteBureauErronee.class)
 	public void ajouterBureauNonPermanentTest3Jeu1() throws Exception {
-		systeme.ajouterBureauNonPermanent("id1", Localisation.EVRY, TypeFonction.NON_PERMANENT, 0, 0);
+		systeme.ajouterBureauNonPermanent("id1", "EVRY", TypeFonction.NON_PERMANENT, 0, 0);
 	}
 
 	@Test(expected = CapaciteBureauErronee.class)
 	public void ajouterBureauNonPermanentTest3Jeu2() throws Exception {
-		systeme.ajouterBureauNonPermanent("id1", Localisation.EVRY, TypeFonction.NON_PERMANENT, 4, 3);
+		systeme.ajouterBureauNonPermanent("id1", "EVRY", TypeFonction.NON_PERMANENT, 4, 3);
 	}
 
 	@Test(expected = CapaciteBureauErronee.class)
 	public void ajouterBureauNonPermanentTest3Jeu3() throws Exception {
-		systeme.ajouterBureauNonPermanent("id1", Localisation.EVRY, TypeFonction.NON_PERMANENT, 1, -1);
+		systeme.ajouterBureauNonPermanent("id1", "EVRY", TypeFonction.NON_PERMANENT, 1, -1);
 	}
 
 	@Test(expected = CapaciteBureauErronee.class)
 	public void ajouterBureauNonPermanentTest3Jeu4() throws Exception {
-		systeme.ajouterBureauNonPermanent("id1", Localisation.EVRY, TypeFonction.NON_PERMANENT, 3, 4);
+		systeme.ajouterBureauNonPermanent("id1", "EVRY", TypeFonction.NON_PERMANENT, 3, 4);
 	}
 
 	@Test(expected = CapaciteBureauErronee.class)
 	public void ajouterBureauNonPermanentTest3Jeu5() throws Exception {
-		systeme.ajouterBureauNonPermanent("id1", Localisation.EVRY, TypeFonction.NON_PERMANENT, -1, 1);
+		systeme.ajouterBureauNonPermanent("id1", "EVRY", TypeFonction.NON_PERMANENT, -1, 1);
 	}
 
 	@Test(expected = BureauDejaExistant.class)
 	public void ajouterBureauNonPermanentTest4() throws Exception {
 		try {
-			systeme.ajouterBureauNonPermanent("id1", Localisation.EVRY, TypeFonction.NON_PERMANENT, 4, 2);
+			systeme.ajouterBureauNonPermanent("id1", "EVRY", TypeFonction.NON_PERMANENT, 1, 1);
 		} catch (BureauDejaExistant e) {
 			Assert.fail();
 		}
-		Assert.assertEquals(4, systeme.getNbFixe("id1"));
-		Assert.assertEquals(2, systeme.getNbPassage("id1"));
-		systeme.ajouterBureauNonPermanent("id1", Localisation.EVRY, TypeFonction.NON_PERMANENT, 4, 3);
+		systeme.ajouterBureauNonPermanent("id1", "EVRY", TypeFonction.NON_PERMANENT, 1, 1);
 	}
 
 	@Test
 	public void ajouterBureauNonPermanentTest5Jeu1() throws Exception {
-		systeme.ajouterBureauNonPermanent("id1", Localisation.EVRY, TypeFonction.NON_PERMANENT, 3, 2);
-		Assert.assertEquals(3, systeme.getNbFixe("id1"));
-		Assert.assertEquals(2, systeme.getNbPassage("id1"));
-	}
-
-	@Test
-	public void ajouterBureauNonPermanentTest5Jeu2() throws Exception {
-		systeme.ajouterBureauNonPermanent("b1", Localisation.EVRY, TypeFonction.NON_PERMANENT, 3, 0);
-		Assert.assertEquals(3, systeme.getNbFixe("id1"));
-		Assert.assertEquals(0, systeme.getNbPassage("id1"));
+		systeme.ajouterBureauNonPermanent("id1", "EVRY", TypeFonction.NON_PERMANENT, 1, 1);
+		Assert.assertEquals(true, systeme.getListeBureaux().containsKey("id1"));
+		Assert.assertEquals(1, systeme.getListeBureaux().get("id1").getNbFixe());
+		Assert.assertEquals(1, systeme.getListeBureaux().get("id1").getNbPassage());
 	}
 }

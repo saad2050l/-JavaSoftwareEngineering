@@ -1,11 +1,19 @@
+// CHECKSTYLE:OFF
 package eu.telecomsudparis.csc4102.bebiloc;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.concurrent.Flow.Subscriber;
+import java.util.concurrent.SubmissionPublisher;
 
+import eu.telecomsudparis.csc4102.bebiloc.exception.DateDebutAffectationNull;
+import eu.telecomsudparis.csc4102.bebiloc.exception.DateFinAffectationNull;
+import eu.telecomsudparis.csc4102.exception.ChaineDeCaracteresNullOuVide;
 import eu.telecomsudparis.csc4102.util.Datutil;
+import eu.telecomsudparis.csc4102.util.IntervalleDates;
 
 /**
  * Cette classe définit le concept métier d'employé.
@@ -37,13 +45,22 @@ public class Employe {
 	 * la fonction.
 	 */
 	private Fonction fonction;
-
-	
-	/*
-	 * array placesFixesReservees
+	/**
+	 * liste des places fixes.
 	 */
-	private final List<Place> placesFixesReservees = null;
-	
+	private List<PlaceFixe> placesFixesReservees;
+	/**
+	 * les occupations de places de passages.
+	 */
+	private final List<OccupationDePassage> occupationsDePassage;
+	/**
+	 * producteur pour annulation bureau.
+	 */
+	private SubmissionPublisher<Notification> producteurPourAnnulationBureau;
+	/**
+	 * la collection des consommateurs.
+	 */
+	private ConsommateurAnnulationAffectation consommateur;
 	
 	/**
 	 * construit un employé de type permanent, c'est-à-dire sans date de fin de
@@ -83,6 +100,13 @@ public class Employe {
 		this.dateEmbauche = dateEmbauche;
 		this.dateFinContrat = Optional.empty();
 		this.fonction = fonction;
+		
+		this.placesFixesReservees = new ArrayList<>();
+		this.occupationsDePassage = new ArrayList<>();
+		
+		this.producteurPourAnnulationBureau = new SubmissionPublisher<>();
+		this.setConsommateur(null);
+		
 		assert invariant();
 	}
 
@@ -130,9 +154,86 @@ public class Employe {
 		this.dateEmbauche = dateEmbauche;
 		this.fonction = fonction;
 		this.dateFinContrat = Optional.of(dateFinContrat);
+		
+		this.placesFixesReservees = new ArrayList<>();
+		this.occupationsDePassage = new ArrayList<>();
+		
+		this.producteurPourAnnulationBureau = new SubmissionPublisher<>();
+		this.setConsommateur(null);
+		
 		assert invariant();
 	}
+	
+	/**
+	 * Est ce que l’employé à un bureau sur la localisation?.
+	 * @param localisation
+	 * @return true si l’employé à un bureau sur la localisation du bureau et false sinon.
+	 */
+	public boolean aDejaBureauSurLocalisation(final Localisation localisation) {
+		if (localisation == null) {
+			throw new IllegalArgumentException("la localisation ne peut pas être libre");
+		}
+	
+		for(PlaceFixe place : placesFixesReservees) {
+			if(place.getLocalisation().equals(localisation)) {
+				return true;
+			}
+		}
+		return false;
 
+	}
+
+	/**
+	 * Est ce que l'employé a atteint le maximum de places
+	 * qu'il peut occuper compte tenu de sa fonction?
+	 * 
+	 * @param localisation la localisation du bureau.
+	 * @return vrai si au maximum.
+	 */
+	public boolean aDejaAtteintMaxPlaces(final Localisation localisation) {
+		if (localisation == null) {
+			throw new IllegalArgumentException("la localisation ne peut pas être libre");
+		}
+		long nbPlacesFixesOccupees = placesFixesReservees.size();
+		if ((fonction.getTypeFonction().equals(TypeFonction.NON_PERMANENT)
+				|| fonction.equals(Fonction.ASSISTANCE_GESTION) || fonction.equals(Fonction.ENSEIGNEMENT_RECHERCHE))
+				&& nbPlacesFixesOccupees >= 1) {
+			return true;
+		}
+		return ((fonction.equals(Fonction.DIRECTION_DEPARTEMENT)
+				|| fonction.equals(Fonction.DIRECTION_ADJOINTE_DEPARTEMENT)) && !placesFixesReservees.isEmpty()
+				&& (nbPlacesFixesOccupees >= 2 || placesFixesReservees.get(0).getLocalisation().equals(localisation)));
+	}
+	
+	/**
+	 * Est ce que l’employé à deja une place de passage sur la localisation du bureau
+	 * et dans le meme intervalle de temps ? .
+	 * @param localisation
+	 * @param dateDebutAffectation
+	 * @param dateFinAffectation
+	 * @return true si l’employé à deja une place de passage sur la localisation du bureau et false sinon.
+	 */
+	public boolean aDejaPlaceDePassageSurLocalisation(final Localisation localisation, 
+			final LocalDate dateDebutAffectation, final LocalDate dateFinAffectation) {
+		if (localisation == null) {
+			throw new IllegalArgumentException("la localisation ne peut pas être libre");
+		}		
+		if (dateDebutAffectation == null) {
+			throw new IllegalArgumentException("la dateDebutAffectation ne peut pas être libre");
+		}	
+		if (dateFinAffectation == null) {
+			throw new IllegalArgumentException("la dateFinAffectation ne peut pas être libre");
+		}	
+		for (OccupationDePassage occupation : occupationsDePassage) {
+			if ( (new IntervalleDates(dateDebutAffectation, dateFinAffectation)).intervalleDatesSIntersectent(occupation.getIntervalle())) {
+				if (localisation.equals(occupation.getPlace().getBureau().getLocalisation())) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
 	/**
 	 * affecter une place fixe à un employé.
 	 * 
@@ -147,6 +248,34 @@ public class Employe {
 		assert invariant();
 	}
 	
+	/**
+	 * @return producteurPourAnnulationBureau.
+	 */
+	public SubmissionPublisher<Notification> getProducteurPourAnnulationBureau() {
+		return producteurPourAnnulationBureau;
+	}
+
+	/**
+	 * Setter du producteurPourAnnulationBureau.
+	 * @param producteurPourAnnulationBureau
+	 */
+	public void setProducteurPourAnnulationBureau(SubmissionPublisher<Notification> producteurPourAnnulationBureau) {
+		this.producteurPourAnnulationBureau = producteurPourAnnulationBureau;
+	}
+
+	/**
+	 * @return ConsommateurAnnulationAffectation.
+	 */
+	public ConsommateurAnnulationAffectation getConsommateur() {
+		return consommateur;
+	}
+
+	/**
+	 * @param consommateur
+	 */
+	public void setConsommateur(ConsommateurAnnulationAffectation consommateur) {
+		this.consommateur = consommateur;
+	}
 	
 	/**
 	 * vérifie l'invariant de la classe.
@@ -223,6 +352,80 @@ public class Employe {
 	 */
 	public TypeFonction getTypeFonction() {
 		return fonction.getTypeFonction();
+	}
+
+	/**
+	 * obtient la liste des places fixes. 
+	 *  
+	 * @return les places fixes.
+	 */
+	public List<PlaceFixe> getPlacesFixesReservees() {
+		return placesFixesReservees;
+	}
+		
+	/**
+	 * obtient la liste des occupations De Passage.
+	 *  
+	 * @return les occupations De Passage.
+	 */
+	public List<OccupationDePassage> getOccupationsDePassage() {
+		return occupationsDePassage;
+	}
+
+	/**
+	 * retire une place fixe à l'employé.
+	 * 
+	 * @param placeFixe la place fixe à retirer.
+	 */
+	public void retirerAffectationPlaceFixe(final PlaceFixe placeFixe) {
+		List<String> message = new ArrayList<>();
+		message.add(placeFixe.getBureau().getId());
+		message.add(placeFixe.getIdPlace());
+		this.producteurPourAnnulationBureau.submit(new Notification(message));
+		this.placesFixesReservees.remove(placeFixe);
+	}
+
+	/**
+	 * retire une occupation de place de passage.
+	 * 
+	 * @param occupation l'occupation à retirer.
+	 */
+	public void retirerUneOccupation(final OccupationDePassage occupation) {
+		List<String> message = new ArrayList<>();
+		message.add(occupation.getPlace().getBureau().getId());
+		message.add(occupation.getPlace().getIdPlace());
+		this.producteurPourAnnulationBureau.submit(new Notification(message));
+		this.occupationsDePassage.remove(occupation);
+	}
+
+	/**
+	 * affecter une place de passage à un employé.
+	 * 
+	 * @param placeDePassage    la place de passage.
+	 * @param dateDebut         la date de début d'occupation.
+	 * @param dateFin           la date de fin d'occupation.
+	 * @param statutAffectation le statut de l'affectation.
+	 * @return l'occupation de passage créée.
+	 * @throws DateDebutAffectationNull 
+	 * @throws DateFinAffectationNull 
+	 * @throws ChaineDeCaracteresNullOuVide 
+	 */
+	public OccupationDePassage affecterPlaceDePassage(final PlaceDePassage placeDePassage, final LocalDate dateDebut,
+			final LocalDate dateFin) throws DateDebutAffectationNull, DateFinAffectationNull, ChaineDeCaracteresNullOuVide {
+		if (placeDePassage == null) {
+			throw new ChaineDeCaracteresNullOuVide("la place de passage ne doit pas être null");
+		}
+		if (dateDebut == null) {
+			throw new DateDebutAffectationNull("la date de début ne doit pas être null");
+		}
+		if (dateFin == null) {
+			throw new DateFinAffectationNull("la date de fin ne doit pas être null");
+		}
+		OccupationDePassage nouvelle = new OccupationDePassage(new IntervalleDates(dateDebut, dateFin), placeDePassage,
+				this);
+		occupationsDePassage.add(nouvelle);
+		assert invariant();
+		return nouvelle;
 	}
 
 	@Override

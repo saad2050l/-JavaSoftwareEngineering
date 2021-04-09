@@ -8,7 +8,7 @@ import eu.telecomsudparis.csc4102.util.OperationImpossible;
  * 
  * @author Denis Conan
  */
-public class LocalisationNull extends OperationImpossible {
+public class LocalisationNullOuVide extends OperationImpossible {
 	/**
 	 * numéro de version pour la sérialisation.
 	 */
@@ -19,7 +19,7 @@ public class LocalisationNull extends OperationImpossible {
 	 * 
 	 * @param message le message de l'exception.
 	 */
-	public LocalisationNull(final String message) {
+	public LocalisationNullOuVide(final String message) {
 		super(message);
 	}
 	

@@ -1,8 +1,9 @@
+// CHECKSTYLE:OFF
 package eu.telecomsudparis.csc4102.bebiloc;
 import java.util.Objects;
 
 
-public class Place {
+public abstract class Place {
 	private final String idPlace;
 	private final Bureau bureau;
 	
@@ -17,6 +18,13 @@ public class Place {
 	
 	public Bureau getBureau() {
 		return bureau;
+	}
+	
+	/**
+	 * @return la localisation.
+	 */
+	public Localisation getLocalisation() {
+		return bureau.getLocalisation();
 	}
 	
 	@Override

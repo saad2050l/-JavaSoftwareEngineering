@@ -1,3 +1,4 @@
+// CHECKSTYLE:OFF
 package eu.telecomsudparis.csc4102.bebiloc;
 
 import eu.telecomsudparis.csc4102.bebiloc.exception.FonctionInconnue;
