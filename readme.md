@@ -1,6 +1,6 @@
 Groupe:
-- Nom1 Prenom1 (to be adapted)
-- Nom2 Prenom2 (to be adapted)
+- Lahlali Saad
+- El Otmani Riad
 
 Copyright (C) 2016-2020
 Contact: Denis.Conan[at]telecom-sudparis.eu
@@ -9,14 +9,90 @@ Structure du projet:
 ```
 $ tree
 .
-├── AUTHORS              // vos noms et prénoms
-├── Code                 // le code du logiciel dans un module Maven
-├── LICENSE              // la lisence (GPL)
-├── Modelisation         // le dossier de modélisation avec sources + PDF
-├── readme.md            // ce fichier
-└── Suivi
-    └── readme.md        // les messages échangés lors du suivi entre séances
-```
+├── AUTHORS.txt
+├── cahierdescharges-chap.pdf
+├── Code
+│   ├── pom.xml
+│   └── src
+│       ├── main
+│       │   └── java
+│       │       └── eu
+│       │           └── telecomsudparis
+│       │               └── csc4102
+│       │                   └── bebiloc
+│       │                       ├── BeBiloc.java
+│       │                       ├── Bureau.java
+│       │                       ├── Employe.java
+│       │                       ├── exception
+│       │                       │   ├── BureauDejaExistant.java
+│       │                       │   ├── BureauInexistant.java
+│       │                       │   ├── CapaciteBureauErronee.java
+│       │                       │   ├── CapaciteDePassageErronee.java
+│       │                       │   ├── ConflitAvecOccupationDePassageMemeLieu.java
+│       │                       │   ├── DateDebutAffectationAvantAujourdhui.java
+│       │                       │   ├── DateDebutAffectationAvantDateEmbauche.java
+│       │                       │   ├── DateDebutAffectationNull.java
+│       │                       │   ├── DateEmbaucheNull.java
+│       │                       │   ├── DateFinAffectationApresDateFinContrat.java
+│       │                       │   ├── DateFinAffectationAvantDateDebutAffectation.java
+│       │                       │   ├── DateFinAffectationNull.java
+│       │                       │   ├── DateFinContratNonApresDateEmbauche.java
+│       │                       │   ├── DateFinContratNull.java
+│       │                       │   ├── DateNull.java
+│       │                       │   ├── EmployeDejaExistant.java
+│       │                       │   ├── EmployeInexistant.java
+│       │                       │   ├── EmployeMaxPlaces.java
+│       │                       │   ├── FonctionInconnue.java
+│       │                       │   ├── FonctionNonAdaptee.java
+│       │                       │   ├── LocalisationNull.java
+│       │                       │   ├── MauvaisTypeOccupantBureau.java
+│       │                       │   ├── OccupationDePassageAvecPlaceFixeMemeLieu.java
+│       │                       │   ├── PasOccupationDansBureauPourEmployeADate.java
+│       │                       │   ├── PasPlaceFixeDansBureauPourEmploye.java
+│       │                       │   └── PlaceManquante.java
+│       │                       ├── Fonction.java
+│       │                       ├── Localisation.java
+│       │                       ├── PlaceFixe.java
+│       │                       ├── Place.java
+│       │                       └── TypeFonction.java
+│       └── test
+│           └── java
+│               └── eu
+│                   └── telecomsudparis
+│                       └── csc4102
+│                           └── bebiloc
+│                               ├── unitaires
+│                               │   ├── TestAffecterEmploye.java
+│                               │   ├── TestEmploye.java
+│                               │   └── TestPlaceFixe.java
+│                               └── validation
+│                                   ├── TestAffecterPlaceFixe.java
+│                                   ├── TestAjouterBureauPourNonPermanents.java
+│                                   ├── TestAjouterBureauPourPermanents.java
+│                                   ├── TestAjouterNonPermanent.java
+│                                   └── TestAjouterPermanent.java
+├── LICENSE
+├── Modelisation
+│   ├── DiagrammesDeCasDUtilisation
+│   │   └── bebiloc_uml_diag_cas_utilisation.uxf
+│   ├── DiagrammesDeClasses
+│   │   └── bebiloc_uml_diag_classes.uxf
+│   ├── DiagrammesDeMachineAEtats
+│   │   ├── bebiloc_uml_diag_machine_a_etats_employe.uxf
+│   │   └── bebiloc_uml_diag_machine_a_etats_placeFixe.uxf
+│   ├── DiagrammesDeSequence
+│   │   ├── bebiloc_uml_diag_sequence_ajouter_non_permanent.uxf
+│   │   ├── bebiloc_uml_diag_sequence_ajouter_permanent.uxf
+│   │   ├── DSUC1.uxf
+│   │   ├── DSUC2.uxf
+│   │   └── DSUC3.uxf
+│   ├── makefile
+│   ├── modelisation.odt
+│   ├── modelisation.pdf
+│   ├── modelisation.tex
+│   └── readme.md
+└── readme.md
+
 
 ================================================================================
 
@@ -39,7 +115,7 @@ Before using the Maven module:
 ------------------------------
 Modify the line 
 ```
- <artifactId>csc4102-prenom1Nom1-prenom2Nom2</artifactId>
+ <artifactId>csc4102-SaadLahlali-RiadElOtmani</artifactId>
 ```
 in the file Code/pom.xml
 
