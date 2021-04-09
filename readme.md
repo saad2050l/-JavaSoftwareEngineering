@@ -115,7 +115,7 @@ Before using the Maven module:
 ------------------------------
 Modify the line 
 ```
- <artifactId>csc4102-prenom1Nom1-prenom2Nom2</artifactId>
+ <artifactId>csc4102-SaadLahlali-RiadElOtmani</artifactId>
 ```
 in the file Code/pom.xml
 
