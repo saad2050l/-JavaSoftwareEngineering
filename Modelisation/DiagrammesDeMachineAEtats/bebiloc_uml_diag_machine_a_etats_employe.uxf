@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.3.0">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLSpecialState</id>
+    <coordinates>
+      <x>60</x>
+      <y>100</y>
+      <w>20</w>
+      <h>20</h>
+    </coordinates>
+    <panel_attributes>type=initial</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLSpecialState</id>
+    <coordinates>
+      <x>60</x>
+      <y>250</y>
+      <w>20</w>
+      <h>20</h>
+    </coordinates>
+    <panel_attributes>type=final</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>160</x>
+      <y>70</y>
+      <w>180</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>EnCréation
+--
+entry: constructeur()
+valign=top
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>550</x>
+      <y>70</y>
+      <w>180</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>SansPlace
+--
+nouveau jour: vérifier()
+valign=top
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>530</x>
+      <y>230</y>
+      <w>220</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>AvecUnePlaceFixe
+--
+valign=top
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>160</x>
+      <y>230</y>
+      <w>180</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>EnDestruction
+--
+entry: destructeur()
+valign=top
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>70</x>
+      <y>100</y>
+      <w>110</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;</panel_attributes>
+    <additional_attributes>10.0;10.0;90.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>330</x>
+      <y>100</y>
+      <w>240</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;</panel_attributes>
+    <additional_attributes>10.0;10.0;220.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>240</x>
+      <y>130</y>
+      <w>340</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+retrait du système</panel_attributes>
+    <additional_attributes>320.0;10.0;10.0;100.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>620</x>
+      <y>130</y>
+      <w>180</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+affectation place fixe</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;100.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>70</x>
+      <y>250</y>
+      <w>110</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;</panel_attributes>
+    <additional_attributes>90.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>530</x>
+      <y>390</y>
+      <w>220</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>AvecDeuxPlacesFixes
+--
+valign=top
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>620</x>
+      <y>290</y>
+      <w>260</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+affectation place fixe
+[direction département ou
+ direction adjointe département]</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;100.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>720</x>
+      <y>100</y>
+      <w>210</w>
+      <h>160</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+retrait place fixe</panel_attributes>
+    <additional_attributes>30.0;140.0;80.0;110.0;80.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>740</x>
+      <y>280</y>
+      <w>270</w>
+      <h>160</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+retrait place fixe</panel_attributes>
+    <additional_attributes>10.0;140.0;140.0;140.0;140.0;30.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>990</x>
+      <y>230</y>
+      <w>330</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>AvecUnePlaceFixeEtUnePlaceDePassage
+--
+valign=top
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>740</x>
+      <y>230</y>
+      <w>270</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+affectation place de passage</panel_attributes>
+    <additional_attributes>10.0;20.0;250.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>1030</x>
+      <y>70</y>
+      <w>220</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>AvecUnePlaceDePassage
+--
+valign=top
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>720</x>
+      <y>70</y>
+      <w>330</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+affectation place de passage</panel_attributes>
+    <additional_attributes>10.0;20.0;310.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1130</x>
+      <y>130</y>
+      <w>180</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+affectation place fixe</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;100.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1240</x>
+      <y>100</y>
+      <w>240</w>
+      <h>180</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+retrait place fixe</panel_attributes>
+    <additional_attributes>80.0;160.0;110.0;160.0;110.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>740</x>
+      <y>250</y>
+      <w>270</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+retrait place de passage</panel_attributes>
+    <additional_attributes>10.0;20.0;250.0;20.0</additional_attributes>
+  </element>
+</diagram>

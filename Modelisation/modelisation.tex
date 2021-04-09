@@ -1,0 +1,695 @@
+\documentclass[11pt,article]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc} % caractères accentués en entrée, dans emacs
+\usepackage[french]{babel}
+\FrenchFootnotes
+\selectlanguage{french}
+\usepackage{a4wide} % possibilité d'utiliser toute la page a4
+% selon GUT#33, avril 2007, page 13, empagement
+% largeur des textes (ou justification) = 15cm
+% hauteur du rectangle d'empagement = 23cm
+% blanc de couture = 2/5 (21-15) = 2.4 = inner = right
+% blanc de grand fond = 3/5 (21-15) = outer = left
+% blanc de tête = 2/5 (29,7-23) = top
+% blanc de pied = 3/5 (29,7-23) = bottom
+%\usepackage[a4paper,twoside=true,right=2.4cm,left=3.6cm,top=2.68cm,bottom=4.02cm]{geometry} 
+% selon CFSE 2006
+% - largeur des textes (ou justification) : 16cm (2cm de marge, et 1cm
+%   de reliure) ;
+% - hauteur des textes, y compris les notes : 23cm (2,5cm de marge
+%   haute et 2cm de marge basse) ; 1ère page de : 36pts
+%   d'espacement avant le titre ;
+\oddsidemargin   -4mm           % 3cm a gauche des impaires
+\evensidemargin   4mm           % 2cm a gauche des paires
+\topmargin       -18mm          % 2.5cm en haut
+\headheight       13mm          % taille de l'entete (lignes)
+\headsep          24pt          % espace entre entete et texte
+\footskip         30pt          % espace entre pied de page et texte
+\textheight      230mm          % longeur du texte
+\textwidth       160mm          % largeur du texte
+\parskip 1pt                    % pas de sauts entre paragraphes
+%\parindent 0pt                  % largeur de l'indentation
+\usepackage{graphicx} % figure postcript avec latex,
+		      % figure png avec pdflatex, au lieu d'utiliser epsfig
+\usepackage[usenames,dvipsnames,table]{xcolor}
+\usepackage{paralist}
+\usepackage{ifthen}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{eurosym}
+\usepackage{textcomp}
+\usepackage{listings}
+\lstset{language=Java,numbers=left,numberstyle=\tiny,stepnumber=4,numbersep=5pt,xleftmargin=5pt}
+
+\usepackage{alltt}
+\usepackage{longtable}
+
+% adjust word spacing less strictly
+% as result, some spaces between words may be a bit too large,
+% but long words will be placed properly.
+\sloppy
+
+\newcommand{\cmt}[1]{\texttt{<}\textbf{--~#1~--}\texttt{>}}
+
+\usepackage{lineno}
+\usepackage{xspace}
+
+\setlength{\marginparwidth}{1cm}
+\setlength{\marginparsep}{10pt}
+\reversemarginpar
+\newcounter{usecasehaute}
+\newcommand{\haute}{Haute}
+\newcommand{\moyenne}{Moyenne}
+\newcommand{\basse}{basse}
+\newcommand{\usecase}[4]{\item \marginpar{\vspace{5pt}\ifthenelse{\equal{#1}{Haute}}{\centering\textsc{#1}\stepcounter{usecasehaute}\newline n$^{\circ}$ \theusecasehaute}{\ifthenelse{\equal{#1}{Moyenne}}{#1}{\small #1}}} #2 \begin{itemize}\item précondition~: #3 \item postcondition~: #4\end{itemize}}
+\newcommand{\priorityusecase}[2]{\item \marginpar{\vspace{5pt}\ifthenelse{\equal{#1}{Haute}}{\centering\textsc{#1}\stepcounter{usecasehaute}\newline n$^{\circ}$ \theusecasehaute}{\ifthenelse{\equal{#1}{Moyenne}}{#1}{\small #1}}} #2}
+\newcommand{\casusecase}[4]{\usecase{#1}{#2}{#3}{#4}}
+
+\newcommand{\nullvalue}{\textsf{null}\xspace}
+\newcommand{\emptyvalue}{\ensuremath\mathrm{vide}}
+\newcommand{\invariant}{\ensuremath\mathrm{invariant}}
+
+\begin{document}
+\title{Projet CSC4102: Gestion de bureaux en situation de bilocalisation}
+\author{Nom Prénom Étudiant1 et Nom Prénom Étudiants2}
+\date{Année 2020--2021~---~\today}
+\maketitle
+
+\newpage
+
+\tableofcontents
+
+\newpage
+
+\section{Spécification}
+
+\subsection{Diagrammes de cas d'utilisation}
+
+{\color{red}\textbf{Le diagramme suivant est à compléter.}}
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[scale=0.5]{DiagrammesDeCasDUtilisation/bebiloc_uml_diag_cas_utilisation}
+\caption{Diagramme de cas d'utilisation}
+\end{center}
+\label{umlet_diag_cas_utilisation}
+\end{figure}
+
+\newpage
+
+\subsection{Priorités, préconditions et postconditions des cas d'utilisation}
+
+Les priorités des cas d'utilisation pour le sprint~1 sont choisies
+avec les règles de bon sens suivantes:
+\begin{compactitem}
+\item pour retirer une entité du système, elle doit y être. La
+priorité de l'ajout est donc supérieure ou égale à la priorité du
+retrait;
+\item pour lister les entités d'un type donné, elles doivent y être. La
+priorité de l'ajout est donc supérieure ou égale à la priorité du
+listage;
+\item il est \textit{a priori} possible, c.-à-d. sans raison
+contraire, de démontrer la mise en œuvre d'un sous-ensemble des
+fonctionnalités du système, et plus particulièrement la prise en
+compte des principales règles de gestion, sans les retraits ou les
+listages.
+\item la possibilité de lister aide au déverminage de l'application
+pendant les activités d'exécution des tests de validation.
+\end{compactitem}
+Par conséquent, les cas d'utilisation d'ajout sont \textit{a priori}
+de priorité <<~haute~>>, ceux de listage de priorité
+<<~moyenne~>>, et ceux de retrait de priorité <<~basse~>>.
+
+\bigskip
+
+Dans la suite, nous donnons les préconditions et postconditions pour
+les cas d'utilisation de priorité <<~\haute~>>. Pour les autres, nous
+indiquons uniquement leur niveau de priorité.
+
+\bigskip
+
+{\color{red}\textbf{La liste de préconditions et postconditions
+    suivante est à compléter.}}
+
+\bigskip
+
+Nous avons préféré mettre deux cas d'utilisation pour ajouter un
+permanent ou un non-permanent, plutôt qu'un unique cas d'utilisation
+pour ajouter un employé. L'avantage des deux cas d'utilisation est
+d'éviter des données en entrée non utilisées dans certaines
+utilisations: un employé permanent ne possède pas de date de fin de
+contrat. Si l'on décide de mettre un seul cas d'utilisation, alors il
+faut vérifier (1)~qu'un permanent n'a pas de date de fin de contrat,
+et (2)~qu'un non-permanent possède une date de fin de contrat. C'est
+une préférence: cela n'impacte pas les autres cas d'utilisation.
+
+\bigskip
+
+\begin{compactitem}
+\usecase{\haute}{Ajouter un employé permanent}
+        %% précondition
+        {\newline
+          $\land$ identifiant de l'employé bien formé (non \nullvalue
+          et non vide)
+          \newline
+          $\land$ nom bien formé (non \nullvalue et non vide)
+          \newline
+          $\land$ prénom bien formé (non \nullvalue et non vide)
+          \newline
+          $\land$ date d'embauche non \nullvalue
+          \newline
+          $\land$ fonction du permanent bien formée (non \nullvalue
+          et non vide)
+          \newline
+          $\land$ fonction du permanent $\in \{$ direction
+          département, direction adjointe département, assistance
+          gestion, enseignement recherche $\}$
+           \newline
+          $\land$ employé avec cet identifiant inexistant}
+        %% postcondition
+        {employé permanent avec cet identifiant existant}
+
+\smallskip
+
+\usecase{\haute}{Ajouter un employé non-permanent}
+        %% précondition
+        {\newline
+          $\land$ identifiant de l'employé bien formé (non \nullvalue
+          et non vide)
+          \newline
+          $\land$ nom bien formé (non \nullvalue et non vide)
+          \newline
+          $\land$ prénom bien formé (non \nullvalue et non vide)
+          \newline
+          $\land$ date d'embauche non \nullvalue
+          \newline
+          $\land$ date de fin de contrat non \nullvalue
+          \newline
+          $\land$ date de fin de contrat $\geq$ date d'embauche
+          \newline
+          $\land$ fonction du non-permanent bien formée (non \nullvalue
+          et non vide)
+          \newline
+          $\land$ fonction du non-permanent $\in \{$ doctorat,
+          post-doctorat, ingénierie recherche, stage $\}$
+          \newline
+          $\land$ employé avec cet identifiant inexistant}
+        %% postcondition
+        {employé permanent avec cet identifiant existant}
+\end{compactitem}
+
+\newpage
+
+\section{Préparation des tests de validation}
+
+\subsection{Tables de décision des tests de validation}
+
+La fiche programme du module CSC4102 ne permettant pas de développer
+des tests de validation couvrant l'ensemble des cas d'utilisation de
+l'application, les cas d'utilisation choisis sont ceux de priorité
+\textsc{Haute}.
+
+\bigskip
+
+{\color{red}\textbf{La section est à compléter avec les tables de
+    décision d'autres cas d'utilisation.}}
+
+\bigskip
+
+\begin{table}[htbp!]
+\begin{tabular}{|p{0.6\linewidth}|c|c|c|c|c|c|c|c|c|}
+\hline
+Numéro de test
+&1&2&3&4&5&6&7&8\\
+\hline
+\hline
+Identifiant de l'employé bien formé (non \nullvalue et non vide)
+&F&T&T&T&T&T&T&T\\
+\hline
+Nom bien formé (non \nullvalue et non vide)
+& &F&T&T&T&T&T&T\\
+\hline
+Prénom bien formé (non \nullvalue et non vide)
+& & &F&T&T&T&T&T\\
+\hline
+Date d'embauche $\neq$ \nullvalue
+& & & &F&T&T&T&T\\
+\hline
+Fonction du permanent bien formée (non \nullvalue et non vide)
+& & & & &F&T&T&T\\
+\hline
+fonction du permanent $\in \{$ direction département, direction adjointe département, assistance gestion, enseignement recherche $\}$
+& & & & & &F&T&T\\
+\hline
+Employé avec cet identifiant non existant
+& & & & & & &F&T\\
+\hline
+\hline
+Création acceptée
+&F&F&F&F&F&F&F&T\\
+\hline
+\hline
+Nombre de jeux de test 
+&2&2&2&1&2&5&1&4\\
+\hline
+\end{tabular}
+\caption{Cas d'utilisation <<~ajouter un employé permanent~>>. Le
+  test~6 possède 5 jeux de test pour les 4 fonctions de non-permanents
+  et pour une fonction inconnue. Le test~8 possède 4 jeux de test pour
+  les 4 fonctions de permanents.}
+\end{table}
+
+\begin{table}[htbp!]
+\begin{tabular}{|p{0.6\linewidth}|c|c|c|c|c|c|c|c|c|c|}
+\hline
+Numéro de test
+&1&2&3&4&5&6&7&8&9&10\\
+\hline
+\hline
+Identifiant de l'employé bien formé (non \nullvalue et non vide)
+&F&T&T&T&T&T&T&T&T&T\\
+\hline
+Nom bien formé (non \nullvalue et non vide)
+& &F&T&T&T&T&T&T&T&T\\
+\hline
+Prénom bien formé (non \nullvalue et non vide)
+& & &F&T&T&T&T&T&T&T\\
+\hline
+Date d'embauche $\neq$ \nullvalue
+& & & &F&T&T&T&T&T&T\\
+\hline
+Date de fin de contrat $\neq$ \nullvalue
+& & & & &F&T&T&T&T&T\\
+\hline
+Date de fin de contrat $\geq$ date d'embauche
+& & & & & &F&T&T&T&T\\
+\hline
+Fonction du non-permanent bien formée (non \nullvalue et non vide)
+& & & & & & &F&T&T&T\\
+\hline
+Fonction du non-permanent $\in \{$ doctorat, post-doctorat, ingénierie recherche, stage $\}$
+& & & & & & & &F&T&T\\
+\hline
+Employé avec cet identifiant non existant
+& & & & & & & & &F&T\\
+\hline
+\hline
+Création acceptée
+&F&F&F&F&F&F&F&F&F&T\\
+\hline
+\hline
+Nombre de jeux de test 
+&2&2&2&1&1&1&2&5&1&4\\
+\hline
+\end{tabular}
+\caption{Cas d'utilisation <<~ajouter un employé non-permanent~>>. Le
+  test~8 possède 5 jeux de test pour les 4 fonctions de permanents et
+  pour une fonction inconnue. Le test~10 possède 4 jeux de test pour
+  les 4 fonctions de non-permanents.}
+\end{table}
+
+\newpage
+
+\section{Conception}
+
+\subsection{Liste des classes}
+
+{\color{red}\textbf{La liste des classes suivante est à compléter.}}
+
+\bigskip
+
+À la suite d'un parcours des diagrammes de cas d'utilisation et d'une
+relecture de l'étude de cas, voici la liste de classes avec quelques
+attributs:
+\begin{compactitem}
+\item \textsf{BeBiloc} (la façade),
+\item \textsf{Employé}~---~identifiant, nom, prénom, dateEmbauche, dateFinContrat, fonction,
+\item \textsf{Fonction} (énumération)~---~nom, typeFonction, avec 8 énumérateurs,
+\item \textsf{TypeFonction} (énumération)~---~2 énumérateurs
+\item ...
+\end{compactitem}
+
+\bigskip
+
+Une variante serait une généralisation spécialisation au lieu d'une
+énumération autour de la classe \textsf{Employé}: \textsf{Employé} en
+classe parente, et \textsf{DIRECTION\_DÉPARTEMENT}, etc. en classes
+enfants. Nous avons préféré une classe avec une énumération car un
+employé peut changer de fonction (ce cas d'utilisation est plus
+fréquent qu'on ne le croit) et beaucoup de traitements dépendent du
+type de l'employé (l'utilisation d'une énumération est quelque peu
+plus aisée).
+
+\newpage
+
+\subsection{Diagramme de classes}
+
+{\color{red}\textbf{Le diagramme de classes suivant est à compléter.}}
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[scale=0.6]{DiagrammesDeClasses/bebiloc_uml_diag_classes}
+\caption{Diagramme de classes}
+\end{center}
+\label{umlet_diag_classes}
+\end{figure}
+
+\newpage
+
+\subsection{Diagrammes de séquence}
+
+{\color{red}\textbf{La section est à compléter avec les diagrammes de séquence de vos cas d'utilisation les plus importants, c'est-à-dire avec ceux de priorité haute.}}
+
+\bigskip
+
+\noindent
+Voici la description textuelle du cas d'utilisation <<~ajouter un employé permanent~>>:
+\begin{compactitem}
+\item arguments en entrée: identifiant de l'employé, nom et prénom de
+  l'employé, date d'embauche, date de fin de contrat, fonction;
+\item rappel de la précondition: identifiant de l'employé bien formé
+  (non \nullvalue et non vide) $\land$ nom bien formé (non \nullvalue
+  et non vide) $\land$ prénom bien formé (non \nullvalue et non vide)
+  $\land$ date d'embauche non \nullvalue $\land$ fonction du permanent
+  bien formée (non \nullvalue et non vide) $\land$ fonction du
+  permanent $\in \{$ direction département, direction adjointe
+  département, assistance gestion, enseignement recherche $\}$ $\land$
+  employé avec cet identifiant inexistant
+\item algorithme:
+\begin{compactenum}
+\item vérifier les arguments
+\item chercher un employé avec cet identifiant
+\item vérifier que l'employé est inexistant
+\item instancier l'employé
+\item ajouter l'employé dans la collection des employés
+\end{compactenum}
+\end{compactitem}
+
+\begin{figure}[ht!]
+\begin{center}
+\includegraphics[scale=0.5]{DiagrammesDeSequence/bebiloc_uml_diag_sequence_ajouter_permanent}
+\caption{Diagramme de séquence du cas d'utilisation <<~ajouter un
+  employé permanent~>>}
+\end{center}
+\label{umlet_diag_sequence_ajouter_non_permanent}
+\end{figure}
+
+\newpage~\newpage
+
+\noindent
+Voici la description textuelle du cas d'utilisation <<~ajouter un employé non-permanent~>>:
+\begin{compactitem}
+\item arguments en entrée: identifiant de l'employé, nom et prénom de
+  l'employé, date d'embauche, date de fin de contrat, fonction;
+\item rappel de la précondition: identifiant de l'employé bien formé
+  (non \nullvalue et non vide) $\land$ nom bien formé (non \nullvalue
+  et non vide) $\land$ prénom bien formé (non \nullvalue et non vide)
+  $\land$ date d'embauche non \nullvalue $\land$ date de fin de
+  contrat non \nullvalue $\land$ date de fin de contrat $\geq$ date
+  d'embauche $\land$ fonction du non-permanent bien formée (non
+  \nullvalue et non vide) $\land$ fonction du permanent $\in
+  \{$doctorat, post-doctorat, ingénierie recherche, stage$\}$ $\land$
+  employé avec cet identifiant inexistant
+\item algorithme:
+\begin{compactenum}
+\item vérifier les arguments
+\item chercher un employé avec cet identifiant
+\item vérifier que l'employé est inexistant
+\item instancier l'employé
+\item ajouter l'employé dans la collection des employés (non modélisé ici)
+\end{compactenum}
+\end{compactitem}
+
+\newpage
+
+\begin{figure}[ht!]
+\begin{center}
+\includegraphics[scale=0.45]{DiagrammesDeSequence/bebiloc_uml_diag_sequence_ajouter_non_permanent}
+\caption{Diagramme de séquence du cas d'utilisation <<~ajouter un
+  employé non-permanent~>>}
+\end{center}
+\label{umlet_diag_sequence_ajouter_non_permanent}
+\end{figure}
+
+\newpage
+
+\section{Fiche des classes}
+
+{\color{red}\textbf{La section est à compléter avec les fiches de vos
+    classes les plus importantes. La première fiche, celle de la
+    façade, est aussi à compléter. La seconde fiche, celle de la
+    classe \textsf{Employé}, est aussi à compléter.}}
+
+\subsection{Classe \textsf{BeBiloc}}
+
+\begin{center}
+\begin{longtable}{|p{15cm}|} 
+\hline
+\multicolumn{1}{|c|}{{\Large \textsf{BeBiloc}}} \\
+\hline
+%\cmt{attributs}\\
+\cmt{attributs <<~association~>>}\\
+$-$ employes : collection de Employe \\
+\hline
+\cmt{constructeur} \\
+$+$ BeBiloc()\\
+%$+$ destructeur()\\
+$+$ invariant() : booléen\\
+\cmt{operations <<~cas d'utilisation~>>} \\
+$+$ ajouterPermanent(String id, String nom, String prenom, LocalDate dateEmbauche, String fonction) \\
+$+$ ajouterNonPermanent(String id, String nom, String prenom,
+LocalDate dateEmbauche, LocalDate dateFinContrat, String fonction) \\
+$+$ listerEmployes() : collection de String \\
+%\cmt{opérations de recherche} \\
+\hline  
+\end{longtable}%)
+\end{center}
+
+\subsection{Classe \textsf{Employé}}
+
+\begin{center}
+\begin{longtable}{|p{15cm}|} 
+\hline
+\multicolumn{1}{|c|}{{\Large \textsf{Employé}}} \\
+\hline
+%\cmt{attributs}\\
+$-$ identifiant : String \\
+$-$ nom : String \\
+$-$ prénom : String \\
+$-$ dateEmbauche : Date \\
+$-$ dateFinContrat : Date \\
+$-$ fonction : Fonction \\
+\cmt{attributs <<~association~>>}\\
+\hline
+\cmt{constructeur} \\
+$+$ Employé(String id, String nom, String prénom, LocalDate
+dateEmbauche, Fonction fonction)\\
+$+$ Employé(String id, String nom, String prénom, LocalDate
+dateEmbauche, LocalDate dateFinContratFonction fonction)\\
+%$+$ destructeur()\\
+$+$ invariant() : booléen\\
+\hline  
+\end{longtable}%)
+\end{center}
+
+\newpage
+
+\section{Diagrammes de machine à états et invariants}
+
+{\color{red}\textbf{La section est à compléter avec les diagrammes de
+    machine à états et les invariants de vos classes les plus
+    importantes.}}
+
+\subsection{Classe \textsf{Employé}}
+
+\textbf{\color{red}L'invariant est à compléter}
+
+\begin{figure}[ht!]
+\begin{center}
+\includegraphics[scale=0.35]{DiagrammesDeMachineAEtats/bebiloc_uml_diag_machine_a_etats_employe}
+\caption{Diagramme de machine à états de la classe \texttt{Employé}}
+\end{center}
+\label{umlet_diag_machine_a_etats_employe}
+\end{figure}
+
+Pour garder l'invariant quelque peu local à la classe, c'est-à-dire
+sans trop d'appels sur d'autres objets métier, les conditions
+suivantes ne sont pas intégrées à l'invariant:
+\begin{compactitem}
+\item le nombre de places de passage est 1,
+\item le nombre de places sur un même site est 1.
+\end{compactitem}
+
+\bigskip
+
+\newcommand{\identifiant}{\ensuremath\mathrm{identifiant}}
+\newcommand{\nom}{\ensuremath\mathrm{nom}}
+\newcommand{\prenom}{\ensuremath\mathrm{prenom}}
+\newcommand{\dateEmbauche}{\ensuremath\mathrm{dateEmbauche}}
+\newcommand{\dateFinContrat}{\ensuremath\mathrm{dateFinContrat}}
+\newcommand{\fonction}{\ensuremath\mathrm{fonction}}
+\newcommand{\permanent}{\ensuremath\mathrm{permanent}}
+\newcommand{\nonpermanent}{\ensuremath\mathrm{non-permanent}}
+\newcommand{\emptystring}{\ensuremath\mathrm{vide}}
+L'invariant de la classe \textsf{Employé} est le suivant:
+\begin{tabbing}
+M \= M \= M \= M \= M \= M \= M \kill
+\> $\land$ \> $\identifiant \neq \nullvalue \land \identifiant \neq \emptystring$\\
+\> $\land$ \> $\nom \neq \nullvalue \land \nom \neq \emptystring$\\
+\> $\land$ \> $\prenom \neq \nullvalue \land \prenom \neq \emptystring$\\
+\> $\land$ \> $\dateEmbauche \neq \nullvalue \land \fonction \neq \nullvalue$\\
+\> $\land$ \> $\fonction = \permanent \implies \dateFinContrat = \nullvalue$\\
+\> $\land$ \> $\fonction \neq \permanent \implies \dateFinContrat \neq \nullvalue$\\
+\end{tabbing}
+
+\newpage
+
+\section{Préparation des tests unitaires}
+
+{\color{red}\textbf{Les deux premières tables de décision sont à
+    compléter (plus particulièrement les post-conditions).}}
+
+\begin{table}[!ht]
+\begin{center}
+\begin{tabular}{|p{0.6\linewidth}|c|c|c|c|c|c|c|}
+\hline
+Numéro de test
+&1&2&3&4&5&6&7\\
+\hline
+\hline
+\texttt{identifiant} $\neq \nullvalue \land \neg \emptystring$
+&F&T&T&T&T&T&T\\
+\hline
+\texttt{nom} $\neq \nullvalue \land \neg \emptystring$
+& &F&T&T&T&T&T\\
+\hline
+\texttt{prénom} $\neq \nullvalue \land \neg \emptystring$
+& & &F&T&T&T&T\\
+\hline
+\texttt{dateEmbauche} $\neq \nullvalue$
+& & & &F&T&T&T\\
+\hline
+\texttt{fonction} $\neq \nullvalue$
+& & & & &F&T&T\\
+\hline
+\texttt{fonction} $\in \{$direction département, direction adjointe
+département, assistance gestion, enseignement recherche$\}$
+& & & & & &F&T\\
+\hline
+\hline
+$\identifiant' = \identifiant$
+& & & & & & &T\\
+\hline
+$\nom' = \nom$
+& & & & & & &T\\
+\hline
+$\prenom' = \prenom$
+& & & & & & &T\\
+\hline
+$\dateEmbauche' = \dateEmbauche$
+& & & & & & &T\\
+\hline
+$\dateFinContrat' = \nullvalue$
+& & & & & & &T\\
+\hline
+$\fonction' = \fonction)$
+& & & & & & &T\\
+\hline
+$\invariant$
+& & & & & & &T\\
+\hline
+Levée d'une exception&\textsc{oui}&\textsc{oui}&\textsc{oui}&\textsc{oui}&\textsc{oui}&\textsc{oui}&\textsc{non}\\
+\hline
+\hline
+Objet créé
+&F&F&F&F&F&F&T\\
+\hline
+\hline
+Nombre de jeux de test 
+&2&2&2&1&1&4&4\\
+\hline
+\end{tabular}
+\caption{Méthode \texttt{constructeurEmployé} de la classe
+  \texttt{Employé} pour un employé permanent. Nous avons mis 4
+  tests pour les jeux de test 6 et 7: 1 par fonction non autorisée et
+  1 par fonction autorisée.}
+\end{center}
+\end{table}
+
+\begin{table}[!ht]
+\begin{center}
+\begin{tabular}{|p{0.6\linewidth}|c|c|c|c|c|c|c|c|}
+\hline
+Numéro de test
+&1&2&3&4&5&6&7&8\\
+\hline
+\hline
+\texttt{identifiant} $\neq \nullvalue \land \neg \emptystring$
+&F&T&T&T&T&T&T&T\\
+\hline
+\texttt{nom} $\neq \nullvalue \land \neg \emptystring$
+& &F&T&T&T&T&T&T\\
+\hline
+\texttt{prénom} $\neq \nullvalue \land \neg \emptystring$
+& & &F&T&T&T&T&T\\
+\hline
+\texttt{dateEmbauche} $\neq \nullvalue$
+& & & &F&T&T&T&T\\
+\hline
+\texttt{dateFinContrat} $\neq \nullvalue$
+& & & & &F&T&T&T\\
+\hline
+\texttt{dateFinContrat} $\geq$ \texttt{dateEmbauche}
+& & & & &F&T&T&T\\
+\hline
+\texttt{fonction} $\neq \nullvalue$
+& & & & & &F&T&T\\
+\hline
+\texttt{fonction} $\in \{$doctorat, post-doctorat, ingénierie
+recherche, stage$\}$
+& & & & & & &F&T\\
+\hline
+\hline
+$\identifiant' = \identifiant$
+& & & & & & & &T\\
+\hline
+$\nom' = \nom$
+& & & & & & & &T\\
+\hline
+$\prenom' = \prenom$
+& & & & & & & &T\\
+\hline
+$\dateEmbauche' = \dateEmbauche$
+& & & & & & & &T\\
+\hline
+$\dateFinContrat' = \dateFinContrat$
+& & & & & & & &T\\
+\hline
+$\fonction' = \fonction)$
+& & & & & & & &T\\
+\hline
+$\invariant$
+& & & & & & & &T\\
+\hline
+Levée d'une exception&\textsc{oui}&\textsc{oui}&\textsc{oui}&\textsc{oui}&\textsc{oui}&\textsc{oui}&\textsc{oui}&\textsc{non}\\
+\hline
+\hline
+Objet créé
+&F&F&F&F&F&F&F&T\\
+\hline
+\hline
+Nombre de jeux de test 
+&2&2&2&1&1&2&4&4\\
+\hline
+\end{tabular}
+\caption{Méthode \texttt{constructeurEmployé} de la
+classe \texttt{Employé} pour un employé non-permanent. Nous avons mis 2
+  tests pour le jeu de test~6: 1 pour l'égalité de date et 1 lorsque
+  les dates ne sont pas égales. Nous avons mis 4 tests pour les jeux
+  de test 7 et 8: 1 par fonction non autorisée et 1 par fonction
+  autorisée.}
+\end{center}
+\end{table}
+
+\end{document}
