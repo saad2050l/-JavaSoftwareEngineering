@@ -1,12 +1,3 @@
-Le Repo suivant est celui d'un projet effectué durant ma formation à Telecom SudParis du module Génie Logiciel. Le sujet ainsi que le cahier des charges ont été fournit par Denis Conan.
-
-Groupe:
-- LAHLALI SAAD
-- EL OTMANI RIAD
-
-Copyright (C) 2016-2020
-Contact: Denis.Conan[at]telecom-sudparis.eu
-
 Structure du projet:
 ```
 $ tree
@@ -154,3 +145,11 @@ In Eclipse:
 ```
 (cd Code; mvn eclipse:clean eclipse:eclipse)
 ```
+
+Autheurs et superviseur:
+-----------
+LAHLALI SAAD & EL OTMANI RIAD : étudiants à Telecom SudParis.
+Superviseur : Denis Conan (prof. Telecom SudParis)
+	
+Copyright (C) 2016-2020
+Contact: Denis.Conan[at]telecom-sudparis.eu
