@@ -1,5 +1,19 @@
-Structure du projet:
-```
+# Java Software engineering
+
+- [Description](#description)
+- [Structure of the project](#structure-of-the-project)
+- [Software prerequisites](#software-prerequisites)
+- [Compilation and installation](#compilation-and-installation)
+- [Authors and Supervisor](#authors-and-supervisor)
+- [Note about this project](#note-about-this-project)
+
+
+
+# Description
+In this project, we've developed an object-oriented application under Java (specification, validation test preparation, preliminary design, integration test preparation, detailed design, unit test preparation, application and test programming, and test execution).
+
+# Structure of the project:
+```bash
 $ tree
 .
 ├── cahierdescharges-chap.pdf
@@ -98,10 +112,9 @@ $ tree
 │   └── readme.md
 ├── readme.md
 └── sun_checks_adapted_to_tsp_csc_pour_eclipse_2019_09.xml
+```
 
-================================================================================
-
-Software prerequisites:
+# Software prerequisites:
 -----------------------
 	1. JAVA Version >= 9.0
 	   (https://openjdk.java.net/install/index.html)
@@ -124,7 +137,7 @@ Modify the line
 ```
 in the file Code/pom.xml
 
-Compilation and installation:
+# Compilation and installation:
 -----------------------------
 	To compile and install the modules, execute the following command.
 ```
@@ -146,10 +159,12 @@ In Eclipse:
 (cd Code; mvn eclipse:clean eclipse:eclipse)
 ```
 
-Autheurs et superviseur:
+# Authors and Supervisor:
 -----------
-LAHLALI SAAD & EL OTMANI RIAD : étudiants à Telecom SudParis.
-Superviseur : Denis Conan (prof. Telecom SudParis)
+[LAHLALI SAAD](https://www.linkedin.com/in/saad-lahlali/) & EL OTMANI RIAD : Students at Telecom SudParis, Institut Polytechnique de Paris.
+
+
+Supervisor : Denis Conan (prof. at Telecom SudParis)
 	
 Copyright (C) 2016-2020
 Contact: Denis.Conan[at]telecom-sudparis.eu
